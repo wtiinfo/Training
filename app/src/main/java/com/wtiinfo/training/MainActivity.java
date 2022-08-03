@@ -6,29 +6,33 @@ import androidx.fragment.app.FragmentTransaction;
 
 import android.os.Bundle;
 
-public class MainActivity extends AppCompatActivity implements OneFragment.OnInverterListener {
+public class MainActivity extends AppCompatActivity {
 
-    private OneFragment input;
-    private TwoFragment result;
+    FragmentManager fm = getSupportFragmentManager();
+    FragmentTransaction ft;
+
+    OneFragment oneFragment = new OneFragment();
+    TwoFragment twoFragment = new TwoFragment();
+    ThreeFragment threeFragment = new ThreeFragment();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        input  = new OneFragment();
-        result = new TwoFragment();
-
-        FragmentManager fm = getSupportFragmentManager();
-        FragmentTransaction ft = fm.beginTransaction();
-        ft.add(R.id.framelayout_one, input, "INPUT");
-        ft.add(R.id.framelayout_two, result, "RESULT");
+        ft = fm.beginTransaction();
+        ft.add(R.id.topfrag,oneFragment, "TOPO");
+        ft.addToBackStack(null);
         ft.commit();
 
-    }
+        ft = fm.beginTransaction();
+        ft.add(R.id.centerfrag, twoFragment, "CENTRO");
+        ft.addToBackStack(null);
+        ft.commit();
 
-    @Override
-    public void invertedText(String txt) {
-        result.inverter(txt);
+        ft = fm.beginTransaction();
+        ft.add(R.id.bottomfrag, threeFragment, "BASE");
+        ft.addToBackStack(null);
+        ft.commit();
     }
 }
